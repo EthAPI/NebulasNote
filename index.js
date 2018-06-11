@@ -440,23 +440,25 @@ $(function () {
 
     $('#nav').html('正在载入笔记...');
 
-    $('#nav').html('正在读取数据...');
-    logEvent('正在读取总笔记数...');
-    contract.getTotalCount(function (resp) {
-        var count = resp.result;
-        logEvent('找到 ' + count + ' 条笔记，将载入最近的 20 条。');
-        contract.get(20, Math.max(0, count - 20), function (resp) {
-            $('#nav').html('');
-            var navOut = '<div class="-1" onclick="show(-1)">本地笔记</div>';
-            ALL = JSON.parse(resp.result);
-            for (var i = ALL.length - 1; i >= 0; i--) {
-                ALL[i].text = ALL[i].text.replace(/\u9FFF/g, '\n');
-                navOut += '<div class="' + i + '"onclick="show(' + i + ')">' + (new Date(ALL[i].date)).Format("yyyy-MM-dd hh:mm:ss") + '</div>';
-            }
-            $('#nav').html(navOut);
-            logEvent('读取完成。链上的笔记是只读的，如您需修改，可将他们复制到本地笔记然后修改。');
-        })
-    });
+    if (checkNebulas()) {
+        $('#nav').html('正在读取数据...');
+        logEvent('正在读取总笔记数...');
+        contract.getTotalCount(function (resp) {
+            var count = resp.result;
+            logEvent('找到 ' + count + ' 条笔记，将载入最近的 20 条。');
+            contract.get(20, Math.max(0, count - 20), function (resp) {
+                $('#nav').html('');
+                var navOut = '<div class="-1" onclick="show(-1)">本地笔记</div>';
+                ALL = JSON.parse(resp.result);
+                for (var i = ALL.length - 1; i >= 0; i--) {
+                    ALL[i].text = ALL[i].text.replace(/\u9FFF/g, '\n');
+                    navOut += '<div class="' + i + '"onclick="show(' + i + ')">' + (new Date(ALL[i].date)).Format("yyyy-MM-dd hh:mm:ss") + '</div>';
+                }
+                $('#nav').html(navOut);
+                logEvent('读取完成。链上的笔记是只读的，如您需修改，可将他们复制到本地笔记然后修改。');
+            });
+        });
+    }
 });
 
 
