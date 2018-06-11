@@ -455,7 +455,7 @@ $(function () {
                     navOut += '<div class="' + i + '"onclick="show(' + i + ')">' + (new Date(ALL[i].date)).Format("yyyy-MM-dd hh:mm:ss") + '</div>';
                 }
                 $('#nav').html(navOut);
-                logEvent('读取完成。链上的笔记是只读的，如您需修改，可将他们复制到本地笔记然后修改。');
+                logEvent('读取完成。链上的笔记是只读的，如您需修改，可将他们复制到本地笔记然后修改。保存上链的快捷键是 Ctrl+S。');
             });
         });
     }
